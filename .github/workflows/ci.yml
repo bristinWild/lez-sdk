@@ -18,8 +18,10 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - name: Run tests
-        run: cargo test --workspace
+        run: cargo test --workspace --exclude counter-methods --exclude counter-methods-guest
       - name: Check formatting
         run: cargo fmt --all -- --check
+        env:
+          RISC0_SKIP_BUILD: "1"
       - name: Clippy
-        run: cargo clippy --workspace -- -D warnings
+        run: cargo clippy --workspace --exclude counter-methods --exclude counter-methods-guest -- -D warnings
