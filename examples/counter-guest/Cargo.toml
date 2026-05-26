@@ -1,0 +1,16 @@
+[package]
+name = "counter-guest"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "counter"
+path = "src/main.rs"
+
+[dependencies]
+counter = { path = "../counter" }
+lez-sdk = { path = "../../lez-sdk" }
+nssa_core = { git = "https://github.com/logos-blockchain/logos-execution-zone.git", rev = "006647bc" }
+borsh = { version = "1.5", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+risc0-zkvm = { version = "1.1", default-features = false, features = ["std"] }

@@ -4,6 +4,7 @@ members = [
     "lez-sdk-macros",
     "examples/counter",
     "examples/cpi-example",
+    "examples/counter-guest",
 ]
 resolver = "2"
 

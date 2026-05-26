@@ -22,7 +22,7 @@ pub struct IncrementArgs {
 }
 
 #[lez_sdk::program]
-mod counter {
+pub mod counter {
     use super::*;
 
     /// Increment the counter by the given amount.
@@ -116,3 +116,6 @@ mod tests {
         assert!(matches!(result, Err(SdkError::DecodeError(_))));
     }
 }
+
+// Re-export instruction handlers for guest binary access
+pub use counter::{increment, reset};
