@@ -48,7 +48,7 @@ pub fn router() -> lez_sdk::router::InstructionRouter {
                 accounts
                     .into_iter()
                     .next()
-                    .ok_or_else(|| SdkError::AccountCountMismatch {
+                    .ok_or(SdkError::AccountCountMismatch {
                         expected: 1,
                         actual: 0,
                     })?;
@@ -59,7 +59,7 @@ pub fn router() -> lez_sdk::router::InstructionRouter {
                 accounts
                     .into_iter()
                     .next()
-                    .ok_or_else(|| SdkError::AccountCountMismatch {
+                    .ok_or(SdkError::AccountCountMismatch {
                         expected: 1,
                         actual: 0,
                     })?;

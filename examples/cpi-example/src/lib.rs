@@ -57,7 +57,7 @@ pub fn vault_router() -> lez_sdk::router::InstructionRouter {
                 accounts
                     .into_iter()
                     .next()
-                    .ok_or_else(|| SdkError::AccountCountMismatch {
+                    .ok_or(SdkError::AccountCountMismatch {
                         expected: 1,
                         actual: 0,
                     })?;
@@ -74,7 +74,7 @@ pub fn vault_router() -> lez_sdk::router::InstructionRouter {
                 accounts
                     .into_iter()
                     .next()
-                    .ok_or_else(|| SdkError::AccountCountMismatch {
+                    .ok_or(SdkError::AccountCountMismatch {
                         expected: 1,
                         actual: 0,
                     })?;
@@ -124,11 +124,11 @@ pub fn token_gate_router(vault_program_id: ProgramId) -> lez_sdk::router::Instru
         let args = Args::try_from_slice(data).map_err(|e| SdkError::DecodeError(e.to_string()))?;
         let _ = args.vault_program_id; // program id passed via closure
         let mut iter = accounts.into_iter();
-        let caller = iter.next().ok_or_else(|| SdkError::AccountCountMismatch {
+        let caller = iter.next().ok_or(SdkError::AccountCountMismatch {
             expected: 2,
             actual: 0,
         })?;
-        let vault_account = iter.next().ok_or_else(|| SdkError::AccountCountMismatch {
+        let vault_account = iter.next().ok_or(SdkError::AccountCountMismatch {
             expected: 2,
             actual: 1,
         })?;
