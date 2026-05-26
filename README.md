@@ -107,3 +107,53 @@ cargo test --workspace
 ## License
 
 Licensed under MIT or Apache-2.0.
+
+## Macro Documentation
+
+LP-0011 requires explaining what each macro expands into and why it is necessary.
+
+### `#[lez_sdk::program]`
+
+**What it expands into:**
+
+The macro takes a module annotated with `#[lez_sdk::program]` and re-emits it verbatim, preserving visibility:
+
+```rust
+// Input:
+#[lez_sdk::program]
+pub mod counter {
+    pub fn increment(...) -> SdkResult { ... }
+}
+
+// Expanded output (via cargo expand):
+pub mod counter {
+    pub fn increment(...) -> SdkResult { ... }
+}
+```
+
+**Why it is necessary:**
+
+Currently a marker — it signals to tooling and readers that this module is a LEZ program entry point. The marker enables future compile-time generation of the guest entrypoint wiring (`read_nssa_inputs` + `ProgramOutput::write`) without changing consumer code. See `docs/expand-counter.rs` for the full expansion.
+
+### `#[lez_sdk::function]`
+
+**What it expands into:**
+
+A pure pass-through — the function is emitted unchanged:
+
+```rust
+// Input:
+#[lez_sdk::function]
+pub fn increment(account: AccountWithMetadata, amount: u64) -> SdkResult { ... }
+
+// Expanded output:
+pub fn increment(account: AccountWithMetadata, amount: u64) -> SdkResult { ... }
+```
+
+**Why it is necessary:**
+
+Marks individual instruction handlers for future router auto-generation. When the SDK generates the full entrypoint (planned), it will scan `#[lez_sdk::function]`-annotated functions to build the discriminant-to-handler mapping automatically, replacing the current explicit `InstructionRouter::register` calls. The marker is placed now so consumer code requires no changes when that generation is added.
+
+### Design principle
+
+Both macros are intentionally marker-only in v0.1.0. This follows the LP-0011 requirement for inspectable, auditable generated code — the expansion is trivial and verifiable via `cargo expand`. The routing table remains explicit and visible in consumer code until auto-generation is added in a future version.
