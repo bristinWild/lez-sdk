@@ -6,8 +6,8 @@
 //! - Explicit account handling
 //! - Borsh argument decoding
 
+use borsh::{BorshDeserialize, BorshSerialize};
 use lez_sdk::prelude::*;
-use borsh::{BorshSerialize, BorshDeserialize};
 
 /// Counter state stored in an account.
 #[derive(BorshSerialize, BorshDeserialize, Debug, Default)]
@@ -27,18 +27,13 @@ pub mod counter {
 
     /// Increment the counter by the given amount.
     #[lez_sdk::function]
-    pub fn increment(
-        counter: AccountWithMetadata,
-        _amount: u64,
-    ) -> SdkResult {
+    pub fn increment(counter: AccountWithMetadata, _amount: u64) -> SdkResult {
         Ok(SdkOutput::new(vec![counter]))
     }
 
     /// Reset the counter to zero.
     #[lez_sdk::function]
-    pub fn reset(
-        counter: AccountWithMetadata,
-    ) -> SdkResult {
+    pub fn reset(counter: AccountWithMetadata) -> SdkResult {
         Ok(SdkOutput::new(vec![counter]))
     }
 }
@@ -49,13 +44,25 @@ pub fn router() -> lez_sdk::router::InstructionRouter {
         .register(0, |accounts, data| {
             let args = IncrementArgs::try_from_slice(data)
                 .map_err(|e| SdkError::DecodeError(e.to_string()))?;
-            let counter = accounts.into_iter().next()
-                .ok_or_else(|| SdkError::AccountCountMismatch { expected: 1, actual: 0 })?;
+            let counter =
+                accounts
+                    .into_iter()
+                    .next()
+                    .ok_or_else(|| SdkError::AccountCountMismatch {
+                        expected: 1,
+                        actual: 0,
+                    })?;
             counter::increment(counter, args.amount)
         })
         .register(1, |accounts, _data| {
-            let counter = accounts.into_iter().next()
-                .ok_or_else(|| SdkError::AccountCountMismatch { expected: 1, actual: 0 })?;
+            let counter =
+                accounts
+                    .into_iter()
+                    .next()
+                    .ok_or_else(|| SdkError::AccountCountMismatch {
+                        expected: 1,
+                        actual: 0,
+                    })?;
             counter::reset(counter)
         })
 }
@@ -118,4 +125,3 @@ mod tests {
 }
 
 // Re-export instruction handlers for guest binary access
-pub use counter::{increment, reset};

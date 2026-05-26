@@ -1,7 +1,7 @@
 //! Error types for LEZ SDK programs.
 
-use thiserror::Error;
 use crate::output::SdkOutput;
+use thiserror::Error;
 
 /// Result type for LEZ program instruction handlers.
 pub type SdkResult = Result<SdkOutput, SdkError>;

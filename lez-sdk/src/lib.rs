@@ -26,7 +26,7 @@
 //! }
 //! ```
 
-pub use lez_sdk_macros::{program, function};
+pub use lez_sdk_macros::{function, program};
 
 pub mod cpi;
 pub mod error;
@@ -34,11 +34,11 @@ pub mod output;
 pub mod router;
 
 pub mod prelude {
-    pub use crate::{program, function};
     pub use crate::error::{SdkError, SdkResult};
     pub use crate::output::SdkOutput;
     pub use crate::router::InstructionRouter;
+    pub use crate::{function, program};
+    pub use borsh::{BorshDeserialize, BorshSerialize};
     pub use nssa_core::account::{Account, AccountId, AccountWithMetadata};
     pub use nssa_core::program::{AccountPostState, ProgramId};
-    pub use borsh::{BorshSerialize, BorshDeserialize};
 }

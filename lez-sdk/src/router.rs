@@ -14,8 +14,8 @@
 //! router.dispatch(discriminant, accounts, data)?;
 //! ```
 
-use nssa_core::account::AccountWithMetadata;
 use crate::error::{SdkError, SdkResult};
+use nssa_core::account::AccountWithMetadata;
 
 /// Type alias for instruction handler functions.
 pub type HandlerFn = Box<dyn Fn(Vec<AccountWithMetadata>, &[u8]) -> SdkResult>;

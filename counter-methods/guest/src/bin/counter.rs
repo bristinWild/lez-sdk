@@ -1,7 +1,7 @@
 //! Counter program guest binary.
 
 use borsh::BorshDeserialize;
-use nssa_core::program::{ProgramInput, ProgramOutput, read_nssa_inputs};
+use nssa_core::program::{read_nssa_inputs, ProgramInput, ProgramOutput};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -33,7 +33,8 @@ fn main() {
                 .expect("Increment requires exactly one account");
             let args = counter::IncrementArgs { amount };
             let data = borsh::to_vec(&args).expect("serialize args");
-            let result = router.dispatch(0, vec![counter_account], &data)
+            let result = router
+                .dispatch(0, vec![counter_account], &data)
                 .expect("increment failed");
             (result.post_states, result.chained_calls)
         }
@@ -41,7 +42,8 @@ fn main() {
             let [counter_account] = pre_states
                 .try_into()
                 .expect("Reset requires exactly one account");
-            let result = router.dispatch(1, vec![counter_account], &[])
+            let result = router
+                .dispatch(1, vec![counter_account], &[])
                 .expect("reset failed");
             (result.post_states, result.chained_calls)
         }
