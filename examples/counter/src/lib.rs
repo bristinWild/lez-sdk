@@ -44,25 +44,23 @@ pub fn router() -> lez_sdk::router::InstructionRouter {
         .register(0, |accounts, data| {
             let args = IncrementArgs::try_from_slice(data)
                 .map_err(|e| SdkError::DecodeError(e.to_string()))?;
-            let counter =
-                accounts
-                    .into_iter()
-                    .next()
-                    .ok_or(SdkError::AccountCountMismatch {
-                        expected: 1,
-                        actual: 0,
-                    })?;
+            let counter = accounts
+                .into_iter()
+                .next()
+                .ok_or(SdkError::AccountCountMismatch {
+                    expected: 1,
+                    actual: 0,
+                })?;
             counter::increment(counter, args.amount)
         })
         .register(1, |accounts, _data| {
-            let counter =
-                accounts
-                    .into_iter()
-                    .next()
-                    .ok_or(SdkError::AccountCountMismatch {
-                        expected: 1,
-                        actual: 0,
-                    })?;
+            let counter = accounts
+                .into_iter()
+                .next()
+                .ok_or(SdkError::AccountCountMismatch {
+                    expected: 1,
+                    actual: 0,
+                })?;
             counter::reset(counter)
         })
 }
