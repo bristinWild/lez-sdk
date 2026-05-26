@@ -1,0 +1,22 @@
+{
+  "version": "0.1.0",
+  "name": "counter",
+  "instructions": [
+    {
+      "name": "increment",
+      "accounts": [
+        { "name": "counter", "writable": true, "signer": false }
+      ],
+      "args": [
+        { "name": "amount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "reset",
+      "accounts": [
+        { "name": "counter", "writable": true, "signer": false }
+      ],
+      "args": []
+    }
+  ]
+}

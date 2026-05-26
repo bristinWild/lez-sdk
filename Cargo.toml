@@ -5,6 +5,8 @@ members = [
     "examples/counter",
     "examples/cpi-example",
     "examples/counter-guest",
+    "counter-methods",
+    "counter-methods/guest",
 ]
 resolver = "2"
 
