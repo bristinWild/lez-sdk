@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, ItemMod, Visibility};
+use syn::{parse_macro_input, ItemMod};
 
 /// Marks a module as a LEZ program.
 /// Generates the program entrypoint and instruction router.
